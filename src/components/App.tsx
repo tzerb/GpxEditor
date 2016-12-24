@@ -14,6 +14,8 @@ class App extends React.Component<undefined, undefined> {
         {' | '}
         <Link to="/fuel-savings">Demo App</Link>
         {' | '}
+        <Link to="/GetGpxFile">GetGpxFile</Link>
+        {' | '}
         <Link to="/about">About</Link>
         <br/>
         {this.props.children}
