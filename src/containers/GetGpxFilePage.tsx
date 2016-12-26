@@ -1,19 +1,23 @@
 import * as React from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../actions/gpxFileActions';
 
 // import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-export interface GetGpxFileProps
+export interface GetGpxFilePageProps
+{
+    gpxFile:any;
+    actions:any;
+}
+
+export interface GetGpxFilePageState
 {
 }
 
-export interface GetGpxFileState
-{
-}
-
-export class GetGpxFile extends React.Component<GetGpxFileProps, GetGpxFileState>  {
+export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxFilePageState>  {
     
-    constructor(props:GetGpxFileProps, context : any)    {
+    constructor(props:GetGpxFilePageProps, context : any)    {
         super(props, context);
         this.fileChanged = this.fileChanged.bind(this);
     }
@@ -34,9 +38,12 @@ export class GetGpxFile extends React.Component<GetGpxFileProps, GetGpxFileState
             var xmlData = reader.result;
         };
     }
+
     //React.EventHandler<React.FormEvent<HTMLInputElement>>
     render() {
+        alert(this.props.gpxFile);
         return (<div>
+                    <br/>
                     <input type="file" id="the-gpx-file-field" onChange={this.fileChanged}/>
                     <div id="preview" >
                     </div>
@@ -51,7 +58,24 @@ export class GetGpxFile extends React.Component<GetGpxFileProps, GetGpxFileState
     }
 }
 
-export default GetGpxFile;
+function mapStateToProps(state:any) {
+    //alert(JSON.stringify(state));
+  return {
+    gpxFile: state.gpxFile
+  };
+}
+
+function mapDispatchToProps(dispatch:any) {
+  return {
+    actions: bindActionCreators(actions as any, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GetGpxFilePage);
+
 
 
 
