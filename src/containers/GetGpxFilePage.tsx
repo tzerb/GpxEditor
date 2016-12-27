@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/gpxFileActions';
+import {gpxFile} from '../utils/gpxFile';
 
 // import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -34,11 +35,14 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
 
             let parser = new DOMParser()
             let xmlDom = parser.parseFromString(reader.result, "text/xml");    
-            let waypoints = xmlDom.documentElement.getElementsByTagName("wpt")        
-            alert(waypoints.length + ' points');
-            var xmlData = reader.result;
+
+            //var xmlData = reader.result;
+            var loadedGpxFile = new gpxFile();
+            loadedGpxFile.loadAsXml(xmlDom);
+            var wps = loadedGpxFile.waypoints;
+
             alert('calling saveWaypoints');
-            saveWaypoints(waypoints)
+            saveWaypoints(wps)
         };
     }
 
@@ -60,7 +64,7 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
 }
 
 function mapStateToProps(state:any) {
-    //alert('y' + state.waypoints.length);
+    alert(JSON.stringify(state));
     return {
         waypoints: state.waypoints
     };
