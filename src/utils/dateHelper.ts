@@ -4,7 +4,7 @@ export default class DateHelper {
     return `${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${this.padLeadingZero(date.getMinutes())}:${this.padLeadingZero(date.getSeconds())}`;
   }
 
-  static padLeadingZero(value) {
+  static padLeadingZero(value:any) {
     return value > 9 ? value : `0${value}`;
   }
 }

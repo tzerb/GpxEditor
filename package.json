@@ -25,9 +25,10 @@
     "open:cover": "npm run test:cover && open coverage/index.html",
     "analyze-bundle": "babel-node ./tools/analyzeBundle.js"
   },
-  "author": "Cory House",
+  "author": "Tim Zirbel",
   "license": "MIT",
   "dependencies": {
+    "@types/object-assign": "4.0.30",
     "@types/react": "0.14.55",
     "@types/react-dom": "0.14.19",
     "@types/react-redux": "4.4.35",
@@ -117,6 +118,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tzerb/react-slingshot2"
+    "url": "https://github.com/tzerb/GpxEditor"
   }
 }

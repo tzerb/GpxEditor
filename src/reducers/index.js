@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 //import fuelSavings from './fuelSavingsReducer';
-import gpxFileReducer from './gpxFileReducer';
+import waypoints from './waypointReducer';
 import {routerReducer} from 'react-router-redux';
 
 const rootReducer = combineReducers({
 //  fuelSavings,
-  gpxFileReducer,
+  waypoints,
   routing: routerReducer
 });
 

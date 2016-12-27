@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 
 export interface GetGpxFilePageProps
 {
-    gpxFile:any;
+    waypoints:any[];
     actions:any;
 }
 
@@ -29,6 +29,7 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
         var reader = new FileReader();
         
         reader.readAsText((ev as any).target.files[0]);
+        var saveWaypoints = this.props.actions.saveWaypoints;
         reader.onloadend = function(){
 
             let parser = new DOMParser()
@@ -36,14 +37,15 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
             let waypoints = xmlDom.documentElement.getElementsByTagName("wpt")        
             alert(waypoints.length + ' points');
             var xmlData = reader.result;
+            alert('calling saveWaypoints');
+            saveWaypoints(waypoints)
         };
     }
 
     //React.EventHandler<React.FormEvent<HTMLInputElement>>
     render() {
-        alert(this.props.gpxFile);
         return (<div>
-                    <br/>
+                    <br/>Number of waypoints - {this.props.waypoints.length}<br/>
                     <input type="file" id="the-gpx-file-field" onChange={this.fileChanged}/>
                     <div id="preview" >
                     </div>
@@ -54,15 +56,14 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
                     </div>    
                 </div>
         );
-        
     }
 }
 
 function mapStateToProps(state:any) {
-    //alert(JSON.stringify(state));
-  return {
-    gpxFile: state.gpxFile
-  };
+    //alert('y' + state.waypoints.length);
+    return {
+        waypoints: state.waypoints
+    };
 }
 
 function mapDispatchToProps(dispatch:any) {

@@ -1,6 +1,3 @@
 export default {
-  gpxFile : {
-    waypoints:[] as any[],
-    Tracks:[] as any[]
-  }
+    waypoints:[] as any[]
 };
