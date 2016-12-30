@@ -5,7 +5,16 @@
         "noImplicitAny": true,
         "module": "commonjs",
         "target": "es6",
-        "jsx": "react"
+        "jsx": "react",
+         "types": [
+            // add node as an option
+            "node"
+         ],
+         // typeroots option has been previously configured
+         "typeroots": [
+            // add path to @types
+            "../node_modules/@types"
+         ]        
     },
     "exclude": [
         "node_modules"
