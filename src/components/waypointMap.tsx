@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import {waypoint} from '../utils/gpxFile';
+import {waypoint} from '../utils/gpxFile'; // TODO TZ Shouldn't rely on gpxFile, should be an intermediate class
 
 let Map = require('google-maps-react').Map;
 let InfoWindow = require('google-maps-react').InfoWindow;
@@ -13,8 +13,9 @@ export interface WaypointMapProps
     loaded?:Boolean,
     google?:any;
     waypoints : waypoint[];
-    pictures : any[];
     initialCenter : waypoint; //todo tz position
+    getWaypointDisplay(waypoint:waypoint):any;
+    addWaypoint(waypoint:waypoint):any;
 }
 
 export interface WaypointMapState
@@ -22,31 +23,23 @@ export interface WaypointMapState
     activeMarker?: any;
     newMarker?: any;
     showingInfoWindow?: boolean;
-    activeWaypoint?: any; 
-    activePicture?: any;
+    activeWaypoint?: waypoint; 
 }
 
 export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapState>  {
   constructor(props : WaypointMapProps, context : any) {
     super(props, context);
     this.state = {
-      activeMarker:null, showingInfoWindow:false,activePicture:null, activeWaypoint:null 
+      activeMarker:null, showingInfoWindow:false, activeWaypoint:null 
     };
 
     this.onClick = this.onClick.bind(this);
     this.onWaypointMarkerClick = this.onWaypointMarkerClick.bind(this);
-    this.onPictureMarkerClick = this.onPictureMarkerClick.bind(this);
   }
 
   onWaypointMarkerClick(props : any, marker : any, event : any){
     this.setState({
-      activeMarker:marker, showingInfoWindow:true,activePicture:null, activeWaypoint:props.waypoint 
-    });
-  }
-
-  onPictureMarkerClick(props : any, marker : any, event : any){
-    this.setState({
-      activeMarker:marker, showingInfoWindow:true,activePicture:props.picture, activeWaypoint:null 
+      activeMarker:marker, showingInfoWindow:true, activeWaypoint:props.waypoint 
     });
   }
 
@@ -54,10 +47,11 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
   {
     alert('onMouseOver');
   }
-
+ 
   onClick(props : any, map : any, event : any)
   {
-    alert('onClick(' + event.latLng.lat() + ", " + event.latLng.lng() + ")");
+    this.props.addWaypoint(waypoint.fromLatLong("New Waypoint", event.latLng.lat(),  event.latLng.lng() ))
+    //alert('onClick(' + event.latLng.lat() + ", " + event.latLng.lng() + ")");
 
     // var newWaypoint = {
     //   latitude:event.latLng.lat(), longitude:event.latLng.lng() 
@@ -73,15 +67,6 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
     // });    
   }
 
-  getWaypointInfoWindow(waypoint:any)
-  {
-    return (waypoint) ? <div>{waypoint.name}</div> : <div/>;
-  }
-
-  getPictureInfoWindow(picture:any)
-  {
-    return (picture) ? <div>{picture.description}</div> : <div/>;
-  }
 
   getInfoWindow()
   {
@@ -89,7 +74,7 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
         <InfoWindow
             marker={this.state.activeMarker}
             visible={this.state.showingInfoWindow}>
-            {this.state.activeWaypoint ? this.getWaypointInfoWindow(this.state.activeWaypoint) : this.getPictureInfoWindow(this.state.activePicture)}
+            {this.state.activeWaypoint ? this.props.getWaypointDisplay(this.state.activeWaypoint) : <div/>}
           </InfoWindow>);
   }
 
@@ -106,14 +91,6 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
             zoom={9} 
             initialCenter={{ lat: this.props.initialCenter.lat, lng: this.props.initialCenter.lon }}
             >
-          {this.props.pictures.map((pic) =>
-            <Marker key={i++} 
-              onClick={this.onPictureMarkerClick}
-              onMouseOver={this.onMouseOver}
-              name={pic.description} picture={pic} label={'here'}
-              position={{ lat: pic.lat, lng:pic.lon }} />
-          )}
-
           {this.props.waypoints.map((wp) =>
             <Marker key={i++} 
               onClick={this.onWaypointMarkerClick}
@@ -129,10 +106,3 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
 }
 
 export default WaypointMap;
-//  GoogleApiWrapper({
-//   apiKey: 'AIzaSyCG_KuXMd6mrgAzrRcgXr91Yr6Ed03VNaw',
-//   version: 3.26
-// }
-// )(WaypointMap)
-
-

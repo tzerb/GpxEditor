@@ -1,8 +1,11 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/gpxFileActions';
+import {IWaypointAction} from '../interfaces/IWaypointAction'
 import {gpxFile, waypoint} from '../utils/gpxFile';
 import {WaypointMap} from '../components/waypointMap'
+import {WaypointList} from '../components/waypointList'
+import {WaypointCard} from '../components/waypointCard'
 
 // import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -18,7 +21,7 @@ export interface GetGpxFilePageProps
     google:any;
     loaded?:boolean;
     waypoints:any[];
-    actions:any;
+    actions:IWaypointAction;
 }
 
 export interface GetGpxFilePageState
@@ -30,6 +33,8 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
     constructor(props:GetGpxFilePageProps, context : any)    {
         super(props, context);
         this.fileChanged = this.fileChanged.bind(this);
+        this.getWaypointDisplay = this.getWaypointDisplay.bind(this);
+        this.addWaypoint = this.addWaypoint.bind(this);
     }
 
     fileChanged(ev : React.FormEvent<HTMLInputElement>)
@@ -37,7 +42,7 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
         // 
         //alert('fileChanged' + e.target.files[0].size);
         var reader = new FileReader();
-        
+
         reader.readAsText((ev as any).target.files[0]);
         var saveWaypoints = this.props.actions.saveWaypoints;
         reader.onloadend = function(){
@@ -54,49 +59,45 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
         };
     }
 
+    getWaypointDisplay(waypoint:waypoint)
+    {
+        return (waypoint) ? <WaypointCard waypoint={waypoint}/> : <div/>;
+    }
+
+    addWaypoint(waypoint:waypoint)
+    {
+        //alert(JSON.stringify(this.props.actions));
+        this.props.actions.addWaypoint(waypoint);
+    }
+
     //React.EventHandler<React.FormEvent<HTMLInputElement>>
     render() {
         return (<div className={'wrapper'}>
                     <div className={'header'}>
                         <input type="file" id="the-gpx-file-field" onChange={this.fileChanged}/>
                         <br/>Number of waypoints - {this.props.waypoints.length}<br/>
-                        {
-                            this.props.waypoints.map((wp:any) => <div>{wp.name} - {wp.sym} - ({wp.lat}, {wp.lon})</div>
-                        )}                        
-                    </div>
-                    <div id="preview" >Preview
-                    </div>
-                    <div id="data">
-                        <h2 id="name"></h2>
-                        <p id="size"></p>
-                        <p id="type"></p>
+                        <WaypointList waypoints={this.props.waypoints}/>
+                     
                     </div>
                     <div className={'content'}>
-                        <WaypointMap google={this.props.google}
-                                     loaded={this.props.loaded}
-                                        waypoints={this.props.waypoints}
-                                        pictures={[]}
-                                        initialCenter = {waypoint.fromLatLong("", "44.5", "-88")}
-                        >
-                        
-                        </WaypointMap>
+                        <WaypointMap    
+                            google={this.props.google}
+                            loaded={this.props.loaded}
+                            waypoints={this.props.waypoints}
+                            initialCenter = {waypoint.fromLatLong("", "44.5", "-88")}
+                            getWaypointDisplay = {this.getWaypointDisplay}
+                            addWaypoint={this.addWaypoint}
+                        />
 
                     </div> 
-                    <div className={'list'}>
-
-                    </div>
                 </div>
         );
     }
 }
 
 function mapStateToProps(state:any) {
-    //alert(JSON.stringify(state));
-    let waypoints:any[] = [];
-    let i:number=0;
-    state.waypoints.map((wp:any) => {wp.key=i++; waypoints.push(wp)});
     return {
-        waypoints: waypoints
+        waypoints: state.waypoints
     };
 }
 
@@ -105,12 +106,6 @@ function mapDispatchToProps(dispatch:any) {
     actions: bindActionCreators(actions as any, dispatch)
   };
 }
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(GetGpxFilePage);
-
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyCG_KuXMd6mrgAzrRcgXr91Yr6Ed03VNaw',
