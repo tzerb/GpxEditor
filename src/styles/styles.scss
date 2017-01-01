@@ -33,7 +33,7 @@ td.fuel-savings-label { width: 175px; }
   font-size: 0.5em;
   padding: 10px;
   margin: 0;
-  color: $vin-red;
+  color: darkblue;
   text-align: center;
 }
 
@@ -43,7 +43,8 @@ td.fuel-savings-label { width: 175px; }
   position: relative;
   min-height: 100vh;
   border-style: outset;
-  background-color:red;
+  background-color:transparent;
+  color: darkblue;
 
   .list {
     order: 3;

@@ -11,8 +11,6 @@ class App extends React.Component<undefined, undefined> {
       <div>
         <IndexLink to="/">HomeApp</IndexLink>
         {' | '}
-        <Link to="/fuel-savings">Demo App</Link>
-        {' | '}
         <Link to="/GetGpxFilePage">GetGpxFilePage</Link>
         {' | '}
         <Link to="/about">About</Link>

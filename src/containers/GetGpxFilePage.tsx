@@ -1,7 +1,8 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import * as actions from '../actions/gpxFileActions';
-import {gpxFile} from '../utils/gpxFile';
+import {gpxFile, waypoint} from '../utils/gpxFile';
+import {WaypointMap} from '../components/waypointMap'
 
 // import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -15,6 +16,7 @@ let GoogleApiWrapper = gmr.GoogleApiWrapper;
 export interface GetGpxFilePageProps
 {
     google:any;
+    loaded?:boolean;
     waypoints:any[];
     actions:any;
 }
@@ -70,21 +72,15 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
                         <p id="type"></p>
                     </div>
                     <div className={'content'}>
-                        <Map google={this.props.google}
-                            style={{}}
-                            className={'map'}
-                            zoom={11}
-                            containerStyle={{}}
-                            centerAroundCurrentLocation={false}
-                            initialCenter={{lat: 44, lng: -88.49}}//(43.868350228261285, -88.45011282090896)
-                            >
-                            {
-                                this.props.waypoints.map((wp:any) => 
-                                    <Marker
-                                    name={wp.name}
-                                    position={{lat: wp.lat, lng: wp.lon}} />
-                            )}
-                        </Map>
+                        <WaypointMap google={this.props.google}
+                                     loaded={this.props.loaded}
+                                        waypoints={this.props.waypoints}
+                                        pictures={[]}
+                                        initialCenter = {waypoint.fromLatLong("", "44.5", "-88")}
+                        >
+                        
+                        </WaypointMap>
+
                     </div> 
                     <div className={'list'}>
 
@@ -96,8 +92,11 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
 
 function mapStateToProps(state:any) {
     //alert(JSON.stringify(state));
+    let waypoints:any[] = [];
+    let i:number=0;
+    state.waypoints.map((wp:any) => {wp.key=i++; waypoints.push(wp)});
     return {
-        waypoints: state.waypoints
+        waypoints: waypoints
     };
 }
 

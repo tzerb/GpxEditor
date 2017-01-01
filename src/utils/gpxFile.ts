@@ -9,6 +9,7 @@ export class trackpoint
 
 }
 
+// TODO TZ make these more typesafe
 export class waypoint
 {
     private _name:string;
@@ -45,20 +46,32 @@ export class waypoint
     {
     }
 
-    fromXmlNode(point:any)
+    static fromLatLong(name: string, lat: string, lon: string) : waypoint
     {
-        try {
-            this._name = point.getElementsByTagName('name')[0].textContent;
-            this._sym = point.getElementsByTagName('sym')[0].textContent;
-            this._time = point.getElementsByTagName('time')[0].textContent;
+        let wp = new waypoint();
+        wp._name = name;
+        wp._lon = lon;
+        wp._lat = lat;
 
-            this._lon = point.getAttribute("lon");
-            this._lat = point.getAttribute("lat");
+        return wp;
+    }
+
+    static fromXmlNode(point:any) : waypoint
+    {
+        let wp = new waypoint();
+        try {
+            wp._name = point.getElementsByTagName('name')[0].textContent;
+            wp._sym = point.getElementsByTagName('sym')[0].textContent;
+            wp._time = point.getElementsByTagName('time')[0].textContent;
+
+            wp._lon = point.getAttribute("lon");
+            wp._lat = point.getAttribute("lat");
         }
         catch(ex)
         {
-            this._name = ex.message;
+            wp._name = ex.message;
         }
+        return wp;
     }
 }
 
@@ -83,10 +96,7 @@ export class gpxFile
         for(var i = 0; i < wps.length; i++) 
         {
             let point=wps[i];
-            var wp = new waypoint();
-            wp.fromXmlNode(point);
-
-            this._waypoints.push(wp);
+            this._waypoints.push(waypoint.fromXmlNode(point));
         }            
     }
 }
