@@ -8,7 +8,7 @@ const NoFileApiSupport = () => {
 
       <h2>NoFileApiSupport</h2>
       <ol>
-        <li>TODO: Tell them what browsers to use.</li>
+        <li>TODO: Tell users what browsers to use.</li>
       </ol>
     </div>
   );

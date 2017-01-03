@@ -5,7 +5,7 @@ import {IWaypointAction} from '../interfaces/IWaypointAction'
 import {gpxFile, waypoint} from '../utils/gpxFile';
 import {WaypointMap} from '../components/waypointMap'
 import {WaypointList} from '../components/waypointList'
-import {WaypointCard} from '../components/waypointCard'
+import {WaypointCard} from '../components/WaypointCard'
 
 // import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -61,7 +61,7 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
 
     getWaypointDisplay(waypoint:waypoint)
     {
-        return (waypoint) ? <WaypointCard waypoint={waypoint}/> : <div/>;
+        return (waypoint) ? <WaypointCard waypoint={waypoint}/> : <div>NOPE</div>;
     }
 
     addWaypoint(waypoint:waypoint)
