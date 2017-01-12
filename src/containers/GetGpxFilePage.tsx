@@ -72,25 +72,41 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
 
     //React.EventHandler<React.FormEvent<HTMLInputElement>>
     render() {
-        return (<div className={'wrapper'}>
-                    <div className={'header'}>
-                        <input type="file" id="the-gpx-file-field" onChange={this.fileChanged}/>
-                        <br/>Number of waypoints - {this.props.waypoints.length}<br/>
-                        <WaypointList waypoints={this.props.waypoints}/>
-                     
+        return (
+                    <div className="container body-content">
+                    <div className="row">
+                    <div className="col-md-12">
+                    <div className="panel panel-primary">
+                        <div className="panel-heading">
+                            Heading
+                        </div><div style={{width:600, height:600}}>
+                            <WaypointMap    
+                                google={this.props.google}
+                                loaded={this.props.loaded}
+                                waypoints={this.props.waypoints}
+                                initialCenter = {waypoint.fromLatLong("", "44.5", "-88")}
+                                getWaypointDisplay = {this.getWaypointDisplay}
+                                addWaypoint={this.addWaypoint}
+                            />                    
+                            </div>
                     </div>
-                    <div className={'content'}>
-                        <WaypointMap    
-                            google={this.props.google}
-                            loaded={this.props.loaded}
-                            waypoints={this.props.waypoints}
-                            initialCenter = {waypoint.fromLatLong("", "44.5", "-88")}
-                            getWaypointDisplay = {this.getWaypointDisplay}
-                            addWaypoint={this.addWaypoint}
-                        />
-
-                    </div> 
-                </div>
+                    </div>
+                    </div>
+                    <div className="row">
+                    
+                    <div className="col-md-12">
+                    <div className="panel panel-primary">
+                        <div className="panel-heading">
+                            Heading
+                        </div>
+                    
+                                <input type="file" id="the-gpx-file-field" onChange={this.fileChanged}/>
+                                <br/>Number of waypoints - {this.props.waypoints.length}<br/>
+                                <WaypointList waypoints={this.props.waypoints}/>
+                        </div>
+                    </div>                     
+                    </div>
+                    </div>            
         );
     }
 }

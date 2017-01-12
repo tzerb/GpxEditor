@@ -8,6 +8,11 @@ let InfoWindow = require('google-maps-react').InfoWindow;
 let Marker = require('google-maps-react').Marker;
 let GoogleApiWrapper = require('google-maps-react').GoogleApiWrapper;
 
+var mapStyle = {
+  height: "600",
+  width: "80%"
+}
+
 export interface WaypointMapProps
 {
     loaded?:Boolean,
@@ -25,7 +30,7 @@ export interface WaypointMapState
     showingInfoWindow?: boolean;
     activeWaypoint?: waypoint; 
 }
-
+ 
 export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapState>  {
   constructor(props : WaypointMapProps, context : any) {
     super(props, context);
@@ -33,11 +38,11 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
       activeMarker:null, showingInfoWindow:false, activeWaypoint:null 
     };
 
-    this.onClick = this.onClick.bind(this);
-    this.onWaypointMarkerClick = this.onWaypointMarkerClick.bind(this);
+    //this.onClick = this.onClick.bind(this);
+    //this.onWaypointMarkerClick = this.onWaypointMarkerClick.bind(this);
   }
 
-  onWaypointMarkerClick(props : any, marker : any, event : any){
+  onWaypointMarkerClick = (props : any, marker : any, event : any) => {
     this.setState({
       activeMarker:marker, showingInfoWindow:true, activeWaypoint:props.waypoint 
     });
@@ -48,7 +53,7 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
     alert('onMouseOver');
   }
  
-  onClick(props : any, map : any, event : any)
+  onClick = (props : any, map : any, event : any)  =>
   {
     this.props.addWaypoint(waypoint.fromLatLong("New Waypoint", event.latLng.lat(),  event.latLng.lng() ))
     //alert('onClick(' + event.latLng.lat() + ", " + event.latLng.lng() + ")");
@@ -86,8 +91,7 @@ export class WaypointMap extends React.Component<WaypointMapProps, WaypointMapSt
       this.props.loaded ?
         <Map google={this.props.google} 
             onClick={this.onClick}
-            style={{}}
-            className={'map'}
+            style={mapStyle}
             zoom={9} 
             initialCenter={{ lat: this.props.initialCenter.lat, lng: this.props.initialCenter.lon }}
             >
