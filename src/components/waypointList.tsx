@@ -1,10 +1,13 @@
 import * as React from 'react'
 
 import {waypoint} from '../utils/gpxFile'; // TODO TZ Shouldn't rely on gpxFile, should be an intermediate class
+import {WaypointRow} from './waypointRow';
 
 export interface WaypointListProps
 {
     waypoints : waypoint[];
+    editWaypoint : any;
+    deleteWaypoint : any;
 }
 
 export interface WaypointListState
@@ -20,10 +23,10 @@ export class WaypointList extends React.Component<WaypointListProps, WaypointLis
     render() {
         return <div>
                         {
-                            this.props.waypoints.map((wp:any) => <div>{wp.name} - {wp.sym} - ({wp.lat}, {wp.lon})</div>
+                            this.props.waypoints.map((wp:any) => <WaypointRow key={wp.id} waypoint={wp} deleteWaypoint={this.props.deleteWaypoint} editWaypoint={this.props.editWaypoint} />
                         )}           
         </div>
     }
 }
-
+//
 export default WaypointList

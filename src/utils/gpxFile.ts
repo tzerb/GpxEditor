@@ -12,6 +12,12 @@ export class trackpoint
 // TODO TZ make these more typesafe
 export class waypoint
 {
+    private _id:number;
+    get id() : number
+    {
+        return this._id;
+    }
+
     private _name:string;
     get name() : string
     {
@@ -46,10 +52,22 @@ export class waypoint
     {
     }
 
+    static fromWaypoint(wpToCopy:waypoint, id:number) : waypoint
+    {
+        let wp = new waypoint();
+        wp._id = id;
+        wp._name = wpToCopy.name;
+        //wp._time = '1/1/2012';// TODO TZ
+        wp._lon = wpToCopy.lon;
+        wp._lat = wpToCopy.lat;
+        return wp;
+    }
+
     static fromLatLong(name: string, lat: string, lon: string) : waypoint
     {
         let wp = new waypoint();
         wp._name = name;
+        //wp._time = '1/1/2012';// TODO TZ
         wp._lon = lon;
         wp._lat = lat;
 
