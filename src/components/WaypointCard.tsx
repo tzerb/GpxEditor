@@ -18,7 +18,7 @@ export class WaypointCard extends React.Component<WaypointCardProps, WaypointCar
     }
    
     render() {
-        return <div>Name: {this.props.waypoint.name}<br/>Date: {this.props.waypoint.time}</div>
+        return <div><b>WaypointCard</b> <br/>Name: {this.props.waypoint.name}<br/>Date: {this.props.waypoint.time}</div>
     }
 }
 

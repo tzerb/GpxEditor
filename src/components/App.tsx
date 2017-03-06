@@ -12,13 +12,11 @@ class App extends React.Component<undefined, undefined> {
         <IndexLink to="/">HomeApp</IndexLink>
         {' | '}
         <Link to="/GetGpxFilePage">GetGpxFilePage</Link>
-        {' | '}
-        <Link to="/about">About</Link>
         <br/>
         {this.props.children}
       </div>
     );
   }
-}
+} 
 
 export default App;
