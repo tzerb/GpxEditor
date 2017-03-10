@@ -76,7 +76,7 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
     }
     deleteWaypoint(waypoint:waypoint)
     {
-        alert('delete');
+        alert('delete' + waypoint.id);
         //this.props.actions.addWaypoint(waypoint);
     }
 

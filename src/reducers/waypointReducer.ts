@@ -9,8 +9,12 @@ export default function waypointsReducer(state = initialState.waypoints, action:
         case types.SAVE_GPX_FILE:
             // action.waypoints && alert(JSON.stringify(action.waypoints[0]));
      
-            var newState = [...action.waypoints]; 
-            return newState;
+            debugger;
+            var newStateSave:waypoint[] = [...state]; 
+            action.waypoints.map(function(wp:waypoint) {
+                newStateSave.push(waypoint.fromWaypoint(wp, ++lastWaypointId));
+            });
+            return newStateSave;
 
         case types.ADD_WAYPOINT:
             // alert(JSON.stringify(action.waypoint));

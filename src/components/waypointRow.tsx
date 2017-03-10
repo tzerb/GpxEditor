@@ -17,6 +17,7 @@ export class WaypointRow extends React.Component<WaypointRowProps, WaypointRowSt
     constructor(props:WaypointRowProps, context : any)    {
         super(props, context);
         this.editWaypoint = this.editWaypoint.bind(this);
+        this.deleteWaypoint = this.deleteWaypoint.bind(this);
     }
    
     editWaypoint(event:any)
@@ -24,8 +25,13 @@ export class WaypointRow extends React.Component<WaypointRowProps, WaypointRowSt
         event.preventDefault();
         this.props.editWaypoint(this.props.waypoint);
     }
+    deleteWaypoint(event:any)
+    {
+        event.preventDefault();
+        this.props.deleteWaypoint(this.props.waypoint);
+    }
     render() {
-        return  <div><div><a href="" onClick={this.editWaypoint}><i className="icon-pencil"></i>edit</a> {this.props.waypoint.name} - {this.props.waypoint.id} - ({this.props.waypoint.lat}, {this.props.waypoint.lon})</div></div>;
+        return  <div><div><a href="" onClick={this.editWaypoint}><i className="icon-pencil"></i>edit</a> <a href="" onClick={this.deleteWaypoint}><i className="icon-pencil"></i>delete</a>{this.props.waypoint.name} - {this.props.waypoint.id} - ({this.props.waypoint.lat}, {this.props.waypoint.lon})</div></div>;
     }
 }
 
