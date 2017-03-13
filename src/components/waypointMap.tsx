@@ -9,7 +9,7 @@ let Marker = require('google-maps-react').Marker;
 let GoogleApiWrapper = require('google-maps-react').GoogleApiWrapper;
 
 var mapStyle = {
-  height: "600",
+  height: "600px",
   width: "80%"
 }
 

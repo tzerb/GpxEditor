@@ -6,6 +6,7 @@ import {gpxFile, waypoint} from '../utils/gpxFile';
 import {WaypointMap} from '../components/waypointMap'
 import {WaypointList} from '../components/waypointList'
 import {WaypointCard} from '../components/WaypointCard'
+import {FlatButton, Snackbar} from 'material-ui'
 
 // import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -79,13 +80,17 @@ export class GetGpxFilePage extends React.Component<GetGpxFilePageProps, GetGpxF
         alert('delete' + waypoint.id);
         //this.props.actions.addWaypoint(waypoint);
     }
-
+    flatPop()
+    {
+        alert('flatPop');
+    }
+    
     //React.EventHandler<React.FormEvent<HTMLInputElement>>
     render() {
         return (
             <div className="container body-content">
                 <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-12"><FlatButton label="flatPop" onTouchTap={this.flatPop }/>
                         <div className="panel panel-primary">
                             <div className="panel-heading">
                                 Heading

@@ -12,6 +12,12 @@ import './styles/styles.scss'; // Yep, that's right. You can import SASS/CSS fil
 import { syncHistoryWithStore } from 'react-router-redux';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 const store = configureStore();
 
 // Create an enhanced history that syncs navigation events with the store
